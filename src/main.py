@@ -33,14 +33,6 @@ def sendMsg(session : Session, st : int, priceDelta : int, url : str) -> bool:
         case other:
             print('Didn\'t match any cases, verify that')
             return False
-    
-    if not config.API_KEYS:
-        print('You didn\'t define any API_KEY')
-        exit(1)
-        
-    if not config.YOUR_ID or not config.YOUR_ID[0]:
-        print('You didn\'t define YOUR_ID')
-        exit(2)
 
     for API_KEY in config.API_KEYS:
         res = session.get(f'https://api.telegram.org/bot{API_KEY}/sendMessage', params=params)
@@ -50,6 +42,15 @@ def sendMsg(session : Session, st : int, priceDelta : int, url : str) -> bool:
     return False
             
 def mainP():
+    if not config.API_KEYS:
+        print('You didn\'t define any API_KEY')
+        return
+        
+    if not config.YOUR_ID or not config.YOUR_ID[0]:
+        print('You didn\'t define YOUR_ID')
+        return
+        
+    
     session = Session(headers=config.HEADERS, impersonate = 'chrome110')
     prices : list[list[int]] = []
     
